@@ -10,6 +10,7 @@ namespace Spawning
 	{
 		public ComputeShader MeshCompute;
 		public ComputeShader ColorCompute;
+		public ComputeShader VertexAnimationCompute;
 		public GameObject ObjectA;
 		public GameObject ObjectB;
 		public int SphereResolution = 64;
@@ -32,6 +33,8 @@ namespace Spawning
 			AddRotateTowardsTarget(ObjectA, ObjectB);
 			
 			AddFacingColorUpdater(ObjectA, ObjectB);
+			
+			AddSphereVertexAnimation(ObjectA);
 		}
 
 		GameObject CreateObject(string objectName, Vector3 startingPosition, Color objectColor, MeshType meshType, string shaderName)
@@ -77,6 +80,13 @@ namespace Spawning
 			var colorUpdater = toBeColored.AddComponent<FacingColorUpdater>();
 			colorUpdater.Target = facingTarget.transform;
 			colorUpdater.ColorCompute = ColorCompute;
+		}
+
+		void AddSphereVertexAnimation(GameObject animObject)
+		{
+			var vertexAnimation = animObject.AddComponent<SphereVertexAnimation>();
+			vertexAnimation.VertexAnimationCompute = VertexAnimationCompute;
+			vertexAnimation.SphereResolution = SphereResolution;
 		}
 	}
 }

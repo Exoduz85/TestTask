@@ -457,13 +457,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MeshCompute: {fileID: 7200000, guid: 9f143a5293b122041b1e92ba5b5c3924, type: 3}
   ColorCompute: {fileID: 7200000, guid: 74ed30868a504983be900f8b878fb2b2, type: 3}
+  VertexAnimationCompute: {fileID: 7200000, guid: e28c2dc0e24a401fb179e2efb0f0c5fb, type: 3}
   ObjectA: {fileID: 0}
   ObjectB: {fileID: 0}
   SphereResolution: 64
   ConeResolution: 32
-  SphereRadius: 1
-  ConeBaseRadius: 0.5
-  ConeLength: 0.5
+  SphereRadius: 2
+  ConeBaseRadius: 1
+  ConeLength: 2
 --- !u!4 &1068229175
 Transform:
   m_ObjectHideFlags: 0
