@@ -1,5 +1,6 @@
 ﻿using Animations;
 using Meshes;
+using Transformation;
 using UnityEngine;
 
 namespace Spawning
@@ -18,12 +19,12 @@ namespace Spawning
 		void Awake()
 		{
 			ObjectA = CreateObject("Object A", new(-10, 0, 0), Color.red, MeshType.SphereWithNose);
-			
-			ObjectA.transform.rotation = Quaternion.Euler(0, 90, 0);
-			AddLissajousAnimation(ObjectA);
-			
 			ObjectB = CreateObject("Object B", new(10, 0, 0), Color.green, MeshType.Sphere);
+			
+			AddLissajousAnimation(ObjectA);
 			AddLissajousAnimation(ObjectB, true);
+			
+			AddRotateTowardsTarget(ObjectA, ObjectB);
 		}
 
 		GameObject CreateObject(string objectName, Vector3 startingPosition, Color objectColor, MeshType meshType)
@@ -56,6 +57,12 @@ namespace Spawning
 			var lissajousAnimA = obj.AddComponent<LissajousAnimation>();
 			lissajousAnimA.center = obj.transform.position;
 			lissajousAnimA.Randomize = randomize;
+		}
+		
+		void AddRotateTowardsTarget(GameObject rotateObject, GameObject target)
+		{
+			var rotateTowards = rotateObject.AddComponent<RotateTowardsTarget>();
+			rotateTowards.target = target.transform;
 		}
 	}
 }
