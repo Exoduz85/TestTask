@@ -456,6 +456,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MeshCompute: {fileID: 7200000, guid: 9f143a5293b122041b1e92ba5b5c3924, type: 3}
+  ColorCompute: {fileID: 7200000, guid: 74ed30868a504983be900f8b878fb2b2, type: 3}
   ObjectA: {fileID: 0}
   ObjectB: {fileID: 0}
   SphereResolution: 64
