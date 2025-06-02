@@ -21,5 +21,12 @@ namespace Helper
 			public static readonly int ConeLengthPropID = Shader.PropertyToID("coneLength");
 		}
 
+		public static class ColorByFacing
+		{
+			public static readonly int VertexCountPropID = Shader.PropertyToID("vertexCount");
+			public static readonly int ColorsPropID = Shader.PropertyToID("colors");
+			public static readonly int ToTargetPropID = Shader.PropertyToID("toTarget");
+			public static readonly int ObjectForwardPropID = Shader.PropertyToID("objectForward");
+		}
 	}
 }
