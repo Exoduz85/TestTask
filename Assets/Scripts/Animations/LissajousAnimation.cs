@@ -10,6 +10,7 @@ namespace Animations
 		public float speed = 1f;
 		public Vector3 center = Vector3.zero;
 		public bool Randomize;
+		public bool Pause;
 
 		float t;
 		
@@ -25,6 +26,8 @@ namespace Animations
 
 		void Update()
 		{
+			if (Pause) return;
+			
 			t += Time.deltaTime * speed;
 
 			var x = amplitude.x * Mathf.Sin(frequency.x * t + phase.x);
