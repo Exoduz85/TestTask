@@ -1,0 +1,64 @@
+﻿#pragma kernel CSSphereVertexAnimation
+
+#define MAX_ANIMATION_THREADS 64
+
+RWStructuredBuffer<float3> vertices;
+StructuredBuffer<float3> originalVertices;
+StructuredBuffer<float3> normals;
+
+int vertexCount;
+int sphereVertexOffset;
+int sphereVertexCount;
+float time;
+float frequency;
+float amplitude;
+
+// simple 3d perlin noise calculation
+float hash(float3 p) {
+    return frac(sin(dot(p, float3(127.1, 311.7, 74.7))) * 43758.5453);
+}
+
+float noise(float3 p) {
+    float3 i = floor(p);
+    float3 f = frac(p);
+
+    // quintic smooth step (5th degree step)
+    float3 u = f * f * (3.0 - 2.0 * f);
+
+    float a = hash(i + float3(0, 0, 0));
+    float b = hash(i + float3(1, 0, 0));
+    float c = hash(i + float3(0, 1, 0));
+    float d = hash(i + float3(1, 1, 0));
+    float e = hash(i + float3(0, 0, 1));
+    float f1 = hash(i + float3(1, 0, 1));
+    float g = hash(i + float3(0, 1, 1));
+    float h = hash(i + float3(1, 1, 1));
+
+    float lerp_x1 = lerp(a, b, u.x);
+    float lerp_x2 = lerp(c, d, u.x);
+    float lerp_x3 = lerp(e, f1, u.x);
+    float lerp_x4 = lerp(g, h, u.x);
+
+    float lerp_y1 = lerp(lerp_x1, lerp_x2, u.y);
+    float lerp_y2 = lerp(lerp_x3, lerp_x4, u.y);
+
+    return lerp(lerp_y1, lerp_y2, u.z);
+}
+
+[numthreads(MAX_ANIMATION_THREADS, 1, 1)]
+void CSSphereVertexAnimation(uint3 id : SV_DispatchThreadID)
+{
+    uint i = id.x;
+    if (i >= sphereVertexCount) return;
+
+    // int index = sphereVertexOffset + i;
+    int index = i;
+
+    float3 pos = originalVertices[index];
+    float3 norm = normals[index];
+
+    float n = noise(pos * frequency + time);
+    float3 offset = norm * ((n * 2.0 - 1.0) * amplitude);
+
+    vertices[index] = pos + offset;
+}
