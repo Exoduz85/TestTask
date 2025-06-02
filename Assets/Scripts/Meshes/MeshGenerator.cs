@@ -46,10 +46,10 @@ namespace Meshes
 		static void ComputeSphere(ref ComputeShader meshCompute, ref ComputeBuffer vertexBuffer, ref ComputeBuffer triangleBuffer, int sphereResolution, float sphereRadius)
 		{
 			var kernel = meshCompute.FindKernel(kernelSphereName);
-			meshCompute.SetInt(ShaderPropIDs.SphereResolutionPropID, sphereResolution);
-			meshCompute.SetInt(ShaderPropIDs.SphereVertOffsetPropID, 0);
-			meshCompute.SetInt(ShaderPropIDs.SphereTriOffsetPropID, 0);
-			meshCompute.SetFloat(ShaderPropIDs.SphereRadiusPropID, sphereRadius);
+			meshCompute.SetInt(ShaderPropIDs.MeshGeneration.SphereResolutionPropID, sphereResolution);
+			meshCompute.SetInt(ShaderPropIDs.MeshGeneration.SphereVertOffsetPropID, 0);
+			meshCompute.SetInt(ShaderPropIDs.MeshGeneration.SphereTriOffsetPropID, 0);
+			meshCompute.SetFloat(ShaderPropIDs.MeshGeneration.SphereRadiusPropID, sphereRadius);
 			meshCompute.SetBuffer(kernel, ShaderPropIDs.VerticesPropID, vertexBuffer);
 			meshCompute.SetBuffer(kernel, ShaderPropIDs.TrianglesPropID, triangleBuffer);
 
@@ -62,11 +62,11 @@ namespace Meshes
 		static void ComputeCone(ref ComputeShader meshCompute, ref ComputeBuffer vertexBuffer, ref ComputeBuffer triangleBuffer, int coneResolution, int sphereVertexCount, int sphereTriCount, float coneBaseRadius, float coneLength)
 		{
 			var kernelCone = meshCompute.FindKernel(kernelConeName);
-			meshCompute.SetInt(ShaderPropIDs.ConeResolutionPropID, coneResolution);
-			meshCompute.SetInt(ShaderPropIDs.ConeVertOffsetPropID, sphereVertexCount);
-			meshCompute.SetInt(ShaderPropIDs.ConeTriOffsetPropID, sphereTriCount);
-			meshCompute.SetFloat(ShaderPropIDs.ConeBaseRadiusPropID, coneBaseRadius);
-			meshCompute.SetFloat(ShaderPropIDs.ConeLengthPropID, coneLength);
+			meshCompute.SetInt(ShaderPropIDs.MeshGeneration.ConeResolutionPropID, coneResolution);
+			meshCompute.SetInt(ShaderPropIDs.MeshGeneration.ConeVertOffsetPropID, sphereVertexCount);
+			meshCompute.SetInt(ShaderPropIDs.MeshGeneration.ConeTriOffsetPropID, sphereTriCount);
+			meshCompute.SetFloat(ShaderPropIDs.MeshGeneration.ConeBaseRadiusPropID, coneBaseRadius);
+			meshCompute.SetFloat(ShaderPropIDs.MeshGeneration.ConeLengthPropID, coneLength);
 			meshCompute.SetBuffer(kernelCone, ShaderPropIDs.VerticesPropID, vertexBuffer);
 			meshCompute.SetBuffer(kernelCone, ShaderPropIDs.TrianglesPropID, triangleBuffer);
 			
