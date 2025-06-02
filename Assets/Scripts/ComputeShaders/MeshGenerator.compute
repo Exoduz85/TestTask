@@ -1,7 +1,9 @@
 #pragma kernel CSCreateSphere
+#pragma kernel CSCreateCone
 
 #define PI 3.141592653589793238462643383279502884197 // approximation of PI with 39 decimals
 #define MAX_SPHERE_THREADS 8 // optimal for 64 (8x8)
+#define MAX_CONE_THREADS 64 // 1d of 64 threads for optimal usage
 
 // buffers
 RWStructuredBuffer<float3> vertices;
@@ -13,7 +15,12 @@ int sphereVertexOffset;
 int sphereTriangleOffset;
 float sphereRadius;
 
-// todo: add cone settings
+// cone settings
+int coneResolution;
+int coneVertexOffset;
+int coneTriangleOffset;
+float coneBaseRadius;
+float coneLength;
 
 [numthreads(MAX_SPHERE_THREADS,MAX_SPHERE_THREADS,1)]
 void CSCreateSphere(uint3 id : SV_DispatchThreadID)
@@ -59,4 +66,34 @@ void CSCreateSphere(uint3 id : SV_DispatchThreadID)
     }
 }
 
-// todo, add kernel for creation of cones with offsets from created spheres
+[numthreads(MAX_CONE_THREADS, 1, 1)]
+void CSCreateCone (uint3 id : SV_DispatchThreadID)
+{
+    uint i = id.x;
+    if (i >= coneResolution)
+        return;
+
+    float angle = (i / (float)coneResolution) * 2.0f * PI;
+    float3 basePos = float3(cos(angle) * coneBaseRadius, sin(angle) * coneBaseRadius, 1.0f);
+    float3 tipPos = float3(0, 0, 1.0f + coneLength);
+
+    vertices[coneVertexOffset + i] = basePos;
+
+    if (i == 0)
+    {
+        vertices[coneVertexOffset + coneResolution] = tipPos;
+    }
+
+    if (i < coneResolution)
+    {
+        int next = (i + 1) % coneResolution;
+        int base0 = coneVertexOffset + i;
+        int base1 = coneVertexOffset + next;
+        int tip   = coneVertexOffset + coneResolution;
+
+        int t = coneTriangleOffset + i * 3;
+        triangles[t + 0] = base0;
+        triangles[t + 1] = base1;
+        triangles[t + 2] = tip;
+    }
+}
