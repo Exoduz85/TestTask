@@ -1,0 +1,25 @@
+#pragma kernel CSColorByFacing
+
+RWStructuredBuffer<float4> colors;
+StructuredBuffer<float3> vertices;
+
+float3 objectForward;
+float3 toTarget;
+
+cbuffer Params
+{
+    uint vertexCount;
+}
+
+[numthreads(64, 1, 1)]
+void CSColorByFacing(uint id : SV_DispatchThreadID)
+{
+    if (id >= vertexCount)
+        return;
+
+    float alignment = dot(normalize(toTarget), normalize(objectForward)); // get current alignment from dot product
+    alignment = saturate((alignment + 1) * 0.5); // map to 0-1
+
+    float3 color = lerp(float3(0, 0, 1), float3(1, 0, 0), alignment); // lerp between red and blue
+    colors[id] = float4(color, 1);
+}
