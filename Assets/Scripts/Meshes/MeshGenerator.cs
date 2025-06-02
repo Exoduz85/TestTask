@@ -38,7 +38,7 @@ namespace Meshes
 	        var triangleBuffer = new ComputeBuffer(totalTriCount, sizeof(int));
 
 			ComputeSphere(ref meshCompute, ref vertexBuffer, ref triangleBuffer, sphereResolution, sphereRadius);
-			ComputeCone(ref meshCompute, ref vertexBuffer, ref triangleBuffer, coneResolution, sphereVertexCount, sphereTriCount, coneBaseRadius, coneLength);
+			ComputeCone(ref meshCompute, ref vertexBuffer, ref triangleBuffer, coneResolution, sphereVertexCount, sphereTriCount, sphereRadius, coneBaseRadius, coneLength);
 
 			return GenerateMeshFromData(ref vertexBuffer, ref triangleBuffer, totalVertexCount, totalTriCount);
 		}
@@ -59,12 +59,13 @@ namespace Meshes
 			meshCompute.Dispatch(kernel, groupCountX, groupCountY, 1);
 		}
 
-		static void ComputeCone(ref ComputeShader meshCompute, ref ComputeBuffer vertexBuffer, ref ComputeBuffer triangleBuffer, int coneResolution, int sphereVertexCount, int sphereTriCount, float coneBaseRadius, float coneLength)
+		static void ComputeCone(ref ComputeShader meshCompute, ref ComputeBuffer vertexBuffer, ref ComputeBuffer triangleBuffer, int coneResolution, int sphereVertexCount, int sphereTriCount, float sphereRadius, float coneBaseRadius, float coneLength)
 		{
 			var kernelCone = meshCompute.FindKernel(kernelConeName);
 			meshCompute.SetInt(ShaderPropIDs.MeshGeneration.ConeResolutionPropID, coneResolution);
 			meshCompute.SetInt(ShaderPropIDs.MeshGeneration.ConeVertOffsetPropID, sphereVertexCount);
 			meshCompute.SetInt(ShaderPropIDs.MeshGeneration.ConeTriOffsetPropID, sphereTriCount);
+			meshCompute.SetFloat(ShaderPropIDs.MeshGeneration.SphereRadiusPropID, sphereRadius);
 			meshCompute.SetFloat(ShaderPropIDs.MeshGeneration.ConeBaseRadiusPropID, coneBaseRadius);
 			meshCompute.SetFloat(ShaderPropIDs.MeshGeneration.ConeLengthPropID, coneLength);
 			meshCompute.SetBuffer(kernelCone, ShaderPropIDs.VerticesPropID, vertexBuffer);

@@ -74,8 +74,8 @@ void CSCreateCone (uint3 id : SV_DispatchThreadID)
         return;
 
     float angle = (i / (float)coneResolution) * 2.0f * PI;
-    float3 basePos = float3(cos(angle) * coneBaseRadius, sin(angle) * coneBaseRadius, 1.0f);
-    float3 tipPos = float3(0, 0, 1.0f + coneLength);
+    float3 basePos = float3(cos(angle) * coneBaseRadius, sin(angle) * coneBaseRadius, sphereRadius);
+    float3 tipPos = float3(0, 0, sphereRadius + coneLength);
 
     vertices[coneVertexOffset + i] = basePos;
 
