@@ -1,4 +1,5 @@
-﻿using Meshes;
+﻿using Animations;
+using Meshes;
 using UnityEngine;
 
 namespace Spawning
@@ -16,11 +17,13 @@ namespace Spawning
 
 		void Awake()
 		{
-			ObjectA = CreateObject("Object A", new Vector3(-5, 0, 0), Color.red, MeshType.SphereWithNose);
+			ObjectA = CreateObject("Object A", new(-10, 0, 0), Color.red, MeshType.SphereWithNose);
 			
 			ObjectA.transform.rotation = Quaternion.Euler(0, 90, 0);
+			AddLissajousAnimation(ObjectA);
 			
-			ObjectB = CreateObject("Object B", new Vector3(5, 0, 0), Color.green, MeshType.Sphere);
+			ObjectB = CreateObject("Object B", new(10, 0, 0), Color.green, MeshType.Sphere);
+			AddLissajousAnimation(ObjectB, true);
 		}
 
 		GameObject CreateObject(string objectName, Vector3 startingPosition, Color objectColor, MeshType meshType)
@@ -46,6 +49,13 @@ namespace Spawning
 			};
 
 			return obj;
+		}
+
+		void AddLissajousAnimation(GameObject obj, bool randomize = false)
+		{
+			var lissajousAnimA = obj.AddComponent<LissajousAnimation>();
+			lissajousAnimA.center = obj.transform.position;
+			lissajousAnimA.Randomize = randomize;
 		}
 	}
 }
