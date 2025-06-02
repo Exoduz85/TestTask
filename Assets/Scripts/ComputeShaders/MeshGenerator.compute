@@ -1,0 +1,56 @@
+#pragma kernel CSCreateSphere
+
+#define PI 3.141592653589793238462643383279502884197
+
+RWStructuredBuffer<float3> vertices;
+RWStructuredBuffer<int> triangles;
+
+int resolution;
+int sphereVertexOffset;
+int sphereTriangleOffset;
+
+float sphereRadius;
+
+[numthreads(8,8,1)]
+void CSCreateSphere(uint3 id : SV_DispatchThreadID)
+{
+    uint x = id.x;
+    uint y = id.y;
+
+    if (x >= resolution || y >= resolution)
+        return;
+
+    uint index = y * resolution + x;
+    float u = (float)x / (resolution - 1);
+    float v = (float)y / (resolution - 1);
+
+    float theta = u * 2.0f * PI;
+    float phi = v * PI;
+
+    float3 pos;
+    pos.x = sin(phi) * cos(theta);
+    pos.y = cos(phi);
+    pos.z = sin(phi) * sin(theta);
+
+    pos *= sphereRadius;
+
+    vertices[sphereVertexOffset + index] = pos;
+
+    if (x < resolution - 1 && y < resolution - 1)
+    {
+        int i0 = index;
+        int i1 = i0 + 1;
+        int i2 = i0 + resolution;
+        int i3 = i2 + 1;
+
+        int t = (y * (resolution - 1) + x) * 6;
+
+        triangles[sphereTriangleOffset + t + 0] = sphereVertexOffset + i0;
+        triangles[sphereTriangleOffset + t + 1] = sphereVertexOffset + i2;
+        triangles[sphereTriangleOffset + t + 2] = sphereVertexOffset + i1;
+
+        triangles[sphereTriangleOffset + t + 3] = sphereVertexOffset + i1;
+        triangles[sphereTriangleOffset + t + 4] = sphereVertexOffset + i2;
+        triangles[sphereTriangleOffset + t + 5] = sphereVertexOffset + i3;
+    }
+}
