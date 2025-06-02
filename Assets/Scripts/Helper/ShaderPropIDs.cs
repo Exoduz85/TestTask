@@ -28,5 +28,17 @@ namespace Helper
 			public static readonly int ToTargetPropID = Shader.PropertyToID("toTarget");
 			public static readonly int ObjectForwardPropID = Shader.PropertyToID("objectForward");
 		}
+
+		public static class VertexAnimation
+		{
+			public static readonly int OriginalVerticesPropID = Shader.PropertyToID("originalVertices");
+			public static readonly int NormalsPropID = Shader.PropertyToID("normals");
+			public static readonly int VertexCountPropID = Shader.PropertyToID("vertexCount");
+			public static readonly int SphereVertexOffsetPropID = Shader.PropertyToID("sphereVertexOffset");
+			public static readonly int SphereVertexCountPropID = Shader.PropertyToID("sphereVertexCount");
+			public static readonly int TimePropID = Shader.PropertyToID("time");
+			public static readonly int FrequencyPropID = Shader.PropertyToID("frequency");
+			public static readonly int AmplitudePropID = Shader.PropertyToID("amplitude");
+		}
 	}
 }
