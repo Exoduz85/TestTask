@@ -436,6 +436,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1068229175}
   - component: {fileID: 1068229174}
+  - component: {fileID: 1068229176}
   m_Layer: 0
   m_Name: ObjectSpawner
   m_TagString: Untagged
@@ -480,6 +481,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1068229176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1068229173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27b539f9a2d04ad89f09b79af5637db8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectA: {fileID: 0}
+  ObjectB: {fileID: 0}
+  attractorSpeed: 8
+  distanceFromCamera: 20
+  IsAttracting: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
